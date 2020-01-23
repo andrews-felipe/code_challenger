@@ -1,7 +1,7 @@
 <template>
-    <div>
-        card wors
-    </div>
+  <div>
+    <!-- card wors -->
+  </div>
 </template>
 
 <script>

@@ -1,7 +1,7 @@
-import Axios from 'axios';
+import Axios from "axios";
 
 const http = Axios.create({
-    baseURL: `https://api.github.com/users`
+  baseURL: `https://api.github.com/users/`
 });
 
 /**
@@ -10,7 +10,7 @@ const http = Axios.create({
  * Serviço para requisições http
  */
 export default {
-    getBy: objectQuery => {
-        return http.patch('/', objectQuery);
-    },
+  getByName: username => {
+    return http.get(username);
+  }
 };
