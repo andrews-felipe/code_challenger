@@ -1,6 +1,6 @@
 <template>
     <div>
-        aaaaaaaaa
+        card wors
     </div>
 </template>
 
