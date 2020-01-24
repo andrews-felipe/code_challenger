@@ -96,6 +96,7 @@ export default {
   background: #ffffff;
   box-shadow: 0 15px 30px -10px transparentize(#000, 0.9);
   justify-content: space-between;
+  z-index: 1;
 }
 input {
   border: unset;
