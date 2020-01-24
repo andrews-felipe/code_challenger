@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const http = Axios.create({
-  baseURL: `https://api.github.com/users/`
+  baseURL: `https://api.github.com/search`
 });
 
 /**
@@ -10,7 +10,7 @@ const http = Axios.create({
  * Serviço para requisições http
  */
 export default {
-  getByName: username => {
-    return http.get(username);
+  getBy: param => {
+    return http.get(`users?q=${param}`);
   }
 };

@@ -14,7 +14,7 @@ input {
 
 body {
   padding: 30px;
-  background: #ecf0f2;
+  background: #f4f4f4;
   box-sizing: border-box;
 }
 
@@ -23,4 +23,14 @@ body {
   -moz-transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
   -ms-transform: scaleX(-1);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }

@@ -3,60 +3,21 @@
     <div class="custom__select">
       <div class="select-box">
         <div class="select-box__current" tabindex="1">
-          <div class="select-box__value">
+          <div
+            class="select-box__value"
+            v-for="(item, index) of searchTypes"
+            v-bind:key="item.name"
+          >
             <input
               class="select-box__input"
               type="radio"
-              id="0"
-              value="1"
+              :id="index"
+              :value="index+1"
               name="Ben"
               checked="checked"
+              @change="typeSelected = item"
             />
-            <p class="select-box__input-text">Cream</p>
-          </div>
-          <div class="select-box__value">
-            <input
-              class="select-box__input"
-              type="radio"
-              id="1"
-              value="2"
-              name="Ben"
-              checked="checked"
-            />
-            <p class="select-box__input-text">Cheese</p>
-          </div>
-          <div class="select-box__value">
-            <input
-              class="select-box__input"
-              type="radio"
-              id="2"
-              value="3"
-              name="Ben"
-              checked="checked"
-            />
-            <p class="select-box__input-text">Milk</p>
-          </div>
-          <div class="select-box__value">
-            <input
-              class="select-box__input"
-              type="radio"
-              id="3"
-              value="4"
-              name="Ben"
-              checked="checked"
-            />
-            <p class="select-box__input-text">Honey</p>
-          </div>
-          <div class="select-box__value">
-            <input
-              class="select-box__input"
-              type="radio"
-              id="4"
-              value="5"
-              name="Ben"
-              checked="checked"
-            />
-            <p class="select-box__input-text">Toast</p>
+            <p class="select-box__input-text">{{item.name}}</p>
           </div>
           <img
             class="select-box__icon"
@@ -66,33 +27,63 @@
           />
         </div>
         <ul class="select-box__list">
-          <li>
-            <label class="select-box__option" for="0" aria-hidden="aria-hidden">Cream</label>
-          </li>
-          <li>
-            <label class="select-box__option" for="1" aria-hidden="aria-hidden">Cheese</label>
-          </li>
-          <li>
-            <label class="select-box__option" for="2" aria-hidden="aria-hidden">Milk</label>
-          </li>
-          <li>
-            <label class="select-box__option" for="3" aria-hidden="aria-hidden">Honey</label>
-          </li>
-          <li>
-            <label class="select-box__option" for="4" aria-hidden="aria-hidden">Toast</label>
+          <li v-for="(_item,index) of searchTypes" v-bind:key="_item.name">
+            <label class="select-box__option" :for="index" aria-hidden="aria-hidden">{{_item.name}}</label>
           </li>
         </ul>
       </div>
     </div>
-    <input type="text" />
-    <button type="submit">
+    <input
+      v-model="textParam"
+      v-on:input="keepTimeToCallSearch(); setStateRequest()"
+      :type="typeSelected.type"
+    />
+    <button type="submit" @click="keepTimeToCallSearch(); setStateRequest()">
       <i class="fa fa-search flip"></i>
     </button>
   </div>
 </template>
 
 <script>
-export default {};
+import http from "../services/http";
+import _ from "lodash";
+
+export default {
+  data: () => ({
+    searchTypes: [
+      { name: "Nome", value: "", type: "text" },
+      { name: "Organização", value: "org:", type: "text" },
+      { name: "Num. Repositórios", value: "repos:", type: "number" },
+      { name: "Localização", value: "location:", type: "text" }
+    ],
+    typeSelected: {},
+    textParam: ""
+  }),
+  methods: {
+    keepTimeToCallSearch: _.debounce(function() {
+      this.search();
+    }, 1000),
+
+    search() {
+      if (this.textParam.length > 1 || this.typeSelected.type == "number") {
+        this.textParam.trim();
+        const query = `${this.typeSelected.value}${this.textParam}`;
+        http.getBy(query).then(res => {
+          this.$store.commit("SET_USERS", res.data.items);
+          this.$store.commit("SET_STATE_REQUEST", false);
+        });
+      }
+    },
+    setStateRequest() {
+      if (!this.$store.state.stateRequest) {
+        this.$store.commit("SET_STATE_REQUEST", true);
+      }
+    }
+  },
+  mounted() {
+    this.typeSelected = this.searchTypes[3];
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -100,7 +91,7 @@ export default {};
   width: 25%;
 }
 .input__search {
-  width: 70%;
+  width: 50%;
   display: flex;
   background: #ffffff;
   box-shadow: 0 15px 30px -10px transparentize(#000, 0.9);
@@ -121,6 +112,7 @@ input {
   display: block;
   width: 100%;
   margin: 0 auto;
+  font-size: small;
 
   &__current {
     position: relative;

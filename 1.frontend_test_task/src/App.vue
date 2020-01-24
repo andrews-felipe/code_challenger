@@ -12,13 +12,14 @@
 </template>
 
 <script>
-import card from "@/components/card.vue";
+import card from "@/components/card__list.vue";
 import search from "@/components/search.vue";
 
 export default {
   components: {
     card,
-    search
+    search,
+ 
   }
 };
 </script>
