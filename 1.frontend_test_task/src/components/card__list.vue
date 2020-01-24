@@ -45,7 +45,7 @@ export default {
     openModal(user) {
       this.$store.commit("SET_CURRENT_USER", user);
       setTimeout(() => {
-          this.screenModal = true;
+        this.screenModal = true;
       }, 500);
     }
   }
@@ -80,6 +80,7 @@ export default {
 }
 
 .container__card {
+  animation: intro 0.2s ease-in-out forwards;
   margin: 4rem;
   display: flex;
   -ms-flex-wrap: wrap;

@@ -85,6 +85,7 @@ export default {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0px 20px 10px #00000017;
+  animation: intro .3s ease-in-out forwards;
 }
 .container__img img {
   width: 100%;
@@ -124,4 +125,6 @@ export default {
   padding: 4rem;
   text-align: center;
 }
+
+
 </style>
